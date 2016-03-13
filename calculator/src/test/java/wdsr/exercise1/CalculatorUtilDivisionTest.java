@@ -29,7 +29,13 @@ public class CalculatorUtilDivisionTest {
 	
 	@Test
 	public void test16dividedBy4() {
-		fail("Not yet implemented");
+		
+		doReturn(4.0).when(calculator).divide(anyInt(),anyInt());
+		// when
+		String result = calcUtil.getDivisionText(16, 4);
+		// then
+		assertEquals("16 / 4 = 4.0", result);
+		verify(calculator).divide(anyInt(), anyInt()); // 
 	}		
 
 	@Test(expected=IllegalArgumentException.class)
@@ -38,9 +44,10 @@ public class CalculatorUtilDivisionTest {
 		doThrow(new IllegalArgumentException()).when(calculator).divide(anyInt(), eq(0));
 
 		// when
-		calcUtil.getDivisionText(3, 0);
-		
+		String result = calcUtil.getDivisionText(3, 0);
 		// then
+		assertEquals("16/0 = IllegalArgumentException", result);
+		verify(calculator).divide(anyInt(), eq(0));
 		// empty - exception expected
 	}
 }

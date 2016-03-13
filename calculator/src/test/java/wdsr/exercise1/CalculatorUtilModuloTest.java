@@ -1,6 +1,11 @@
 package wdsr.exercise1;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +23,16 @@ public class CalculatorUtilModuloTest {
 		calcUtil = new CalculatorUtil(calculator);
 	}
 
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void testModuloByZero() {
-		fail("Not yet implemented");
+		// given
+		doThrow(new IllegalArgumentException()).when(calculator).modulo(anyInt(), eq(0));
+
+		// when
+		String result = calcUtil.getModuloText(3, 0);
+		// then
+		assertEquals("16 % 0 = IllegalArgumentException", result);
+		verify(calculator).modulo(anyInt(), eq(0));
+		// empty - exception expected
 	}	
 }
